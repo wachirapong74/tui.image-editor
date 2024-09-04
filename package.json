@@ -1,5 +1,6 @@
 {
-  "name": "root",
+  "name": "my-tui-image-editor",
+  "version": "1.0.0",
   "private": true,
   "devDependencies": {
     "@babel/core": "^7.15.0",
