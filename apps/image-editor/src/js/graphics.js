@@ -323,8 +323,14 @@ class Graphics {
    * Gets an active object or group
    * @returns {Object} active object or group instance
    */
+  // getActiveObject() {
+  //   return this._canvas._activeObject;
+  // }
   getActiveObject() {
-    return this._canvas._activeObject;
+    const activeObject = this._canvas._activeObject;
+    // console.log("activeObject", activeObject);
+
+    return typeof activeObject !== 'undefined' ? activeObject : null;
   }
 
   /**
@@ -333,19 +339,25 @@ class Graphics {
    */
   getActiveObjectIdForRemove() {
     const activeObject = this.getActiveObject();
-    const { type, left, top } = activeObject;
-    const isSelection = type === 'activeSelection';
 
-    if (isSelection) {
-      const group = new fabric.Group([...activeObject.getObjects()], {
-        left,
-        top,
-      });
+    if (activeObject !== null) {
+      const { type, left, top } = activeObject;
+      const isSelection = type === 'activeSelection';
 
-      return this._addFabricObject(group);
+      if (isSelection) {
+        const group = new fabric.Group([...activeObject.getObjects()], {
+          left,
+          top,
+        });
+
+        return this._addFabricObject(group);
+      }
+
+      return this.getObjectId(activeObject);
     }
 
-    return this.getObjectId(activeObject);
+    return null;
+    // return this.getObjectId(activeObject);
   }
 
   /**

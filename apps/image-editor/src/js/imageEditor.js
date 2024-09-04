@@ -416,8 +416,9 @@ class ImageEditor {
    */
   removeActiveObject() {
     const activeObjectId = this._graphics.getActiveObjectIdForRemove();
-
-    this.removeObject(activeObjectId);
+    if (activeObjectId) {
+      this.removeObject(activeObjectId);
+    }
   }
 
   /**
