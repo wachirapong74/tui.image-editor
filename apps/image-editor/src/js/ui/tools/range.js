@@ -239,7 +239,14 @@ class Range {
     clearTimeout(this._userInputTimer);
 
     const { keyCode } = event;
-    if (keyCode < keyCodes.DIGIT_0 || keyCode > keyCodes.DIGIT_9) {
+    // fix support numpad in numerical inputs.
+    // https://github.com/nhn/tui.image-editor/compare/master...sirsimon:tui.image-editor:fix/numpad
+    // if (keyCode < keyCodes.DIGIT_0 || keyCode > keyCodes.DIGIT_9) {
+    if (
+      keyCode < keyCodes.DIGIT_0 ||
+      (keyCode > keyCodes.DIGIT_9 && keyCode < keyCodes.DIGIT_NUMPAD_0) ||
+      keyCode > keyCodes.DIGIT_NUMPAD_9
+    ) {
       event.preventDefault();
 
       return;
@@ -302,6 +309,9 @@ class Range {
    */
   _addDragEvent() {
     this.pointer.addEventListener('mousedown', this.eventHandler.startChangingSlide);
+    // fix ipad range issue.
+    // https://github.com/nhn/tui.image-editor/issues/915
+    this.pointer.addEventListener('touchstart', this.eventHandler.startChangingSlide);
   }
 
   /**
@@ -310,6 +320,7 @@ class Range {
    */
   _removeDragEvent() {
     this.pointer.removeEventListener('mousedown', this.eventHandler.startChangingSlide);
+    this.pointer.removeEventListener('touchstart', this.eventHandler.startChangingSlide);
   }
 
   /**
@@ -317,7 +328,12 @@ class Range {
    * @param {object} event - change event
    * @private
    */
+  // eslint-disable-next-line complexity
   _changeSlide(event) {
+    if (event.changedTouches && event.changedTouches[0]) {
+      event = event.changedTouches[0];
+    }
+
     const changePosition = event.screenX;
     const diffPosition = changePosition - this.firstPosition;
     let touchPx = this.firstLeft + diffPosition;
@@ -345,6 +361,9 @@ class Range {
     if (event.target.className !== 'tui-image-editor-range') {
       return;
     }
+    if (event.changedTouches && event.changedTouches[0]) {
+      event = event.changedTouches[0];
+    }
     const touchPx = event.offsetX;
     const ratio = touchPx / this.rangeWidth;
     const value = this._absMax * ratio + this._min;
@@ -356,9 +375,15 @@ class Range {
   }
 
   _startChangingSlide(event) {
+    if (event.changedTouches && event.changedTouches[0]) {
+      event = event.changedTouches[0];
+    }
+
     this.firstPosition = event.screenX;
     this.firstLeft = toInteger(this.pointer.style.left) || 0;
 
+    document.addEventListener('touchmove', this.eventHandler.changeSlide);
+    document.addEventListener('touchend', this.eventHandler.stopChangingSlide);
     document.addEventListener('mousemove', this.eventHandler.changeSlide);
     document.addEventListener('mouseup', this.eventHandler.stopChangingSlide);
   }
@@ -369,7 +394,8 @@ class Range {
    */
   _stopChangingSlide() {
     this.fire('change', this._value, true);
-
+    document.removeEventListener('touchmove', this.eventHandler.changeSlide);
+    document.removeEventListener('touchend', this.eventHandler.stopChangingSlide);
     document.removeEventListener('mousemove', this.eventHandler.changeSlide);
     document.removeEventListener('mouseup', this.eventHandler.stopChangingSlide);
   }
