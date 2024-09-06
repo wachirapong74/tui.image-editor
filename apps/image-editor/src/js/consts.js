@@ -274,6 +274,7 @@ export const fObjectOptions = {
     originX: 'center',
     originY: 'center',
     transparentCorners: false,
+    // padding: 20,
   },
 };
 

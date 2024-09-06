@@ -406,6 +406,7 @@ export default class Shape extends Component {
         self._resetPositionFillFilter(this);
       },
       scaling(fEvent) {
+        // console.log("scaling...");
         const pointer = canvas.getPointer(fEvent.e);
         const currentObj = self._shapeObj;
 

@@ -450,6 +450,7 @@ class ImageEditor {
      * });
      */
 
+    // console.log("_onMouseDown");
     this.fire(events.MOUSE_DOWN, event, originPointer);
   }
 
