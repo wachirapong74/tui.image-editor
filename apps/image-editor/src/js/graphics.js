@@ -1120,6 +1120,7 @@ class Graphics {
    * @private
    */
   _onMouseDown(fEvent) {
+    // console.log("_onMouseDown", fEvent);
     const { e: event, target } = fEvent;
     const originPointer = this._canvas.getPointer(event);
 

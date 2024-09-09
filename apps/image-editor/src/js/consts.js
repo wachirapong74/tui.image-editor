@@ -271,10 +271,13 @@ export const fObjectOptions = {
     borderColor: 'red',
     cornerColor: 'green',
     cornerSize: 10,
+    touchCornerSize: 20, // เพิ่ม area ตรงมุมสำหรับ resize ให้ง่ายขึ้น
     originX: 'center',
     originY: 'center',
     transparentCorners: false,
-    // padding: 20,
+    padding: 5,
+    // rotatingPointOffset: 200,
+    rotatingPointOffset: -50,
   },
 };
 
@@ -338,7 +341,8 @@ export const defaultShapeStrokeValues = {
   realTimeEvent: true,
   min: 2,
   max: 300,
-  value: 3,
+  // value: 3,
+  value: 10,
 };
 
 export const defaultTextRangeValues = {

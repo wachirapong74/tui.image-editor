@@ -182,6 +182,7 @@ declare namespace tuiImageEditor {
   interface ISelectionStyleConfig {
     cornerStyle?: string;
     cornerSize?: number;
+    touchCornerSize?: number; // increase touch area control points on mobile device.
     cornerColor?: string;
     cornerStrokeColor?: string;
     transparentCorners?: boolean;

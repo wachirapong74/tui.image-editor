@@ -49,7 +49,7 @@
           },
           theme: blackTheme, // or whiteTheme
           // initMenu: 'filter',
-          initMenu: "draw",
+          initMenu: "shape",
           menu: [
               // "crop",
               // "flip",
@@ -67,8 +67,10 @@
         cssMaxHeight: 500,
         usageStatistics: false,
         selectionStyle: {
-          cornerSize: 50,
-          rotatingPointOffset: 70,
+          cornerSize: 30,
+          touchCornerSize: 60,
+          cornerStyle: "circle",
+          // rotatingPointOffset: -80,
         },
       });
       window.onresize = function () {

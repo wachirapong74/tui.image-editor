@@ -216,6 +216,24 @@ export default class Shape extends Component {
    *      @param {number} [options.isRegular] - Whether scaling shape has 1:1 ratio or not
    * @returns {Promise}
    */
+  // add(type, options) {
+  //   return new Promise((resolve) => {
+  //     const canvas = this.getCanvas();
+  //     const extendOption = this._extendOptions(options);
+
+  //     const shapeObj = this._createInstance(type, extendOption);
+  //     const objectProperties = this.graphics.createObjectProperties(shapeObj);
+
+  //     this._bindEventOnShape(shapeObj);
+
+  //     canvas.add(shapeObj).setActiveObject(shapeObj);
+
+  //     this._resetPositionFillFilter(shapeObj);
+
+  //     resolve(objectProperties);
+  //   });
+  // }
+
   add(type, options) {
     return new Promise((resolve) => {
       const canvas = this.getCanvas();
@@ -227,6 +245,14 @@ export default class Shape extends Component {
       this._bindEventOnShape(shapeObj);
 
       canvas.add(shapeObj).setActiveObject(shapeObj);
+
+      // Fixed rotatingPointOffset
+      canvas.item(0).controls.mtr.offsetY = extendOption.rotatingPointOffset;
+      // vertical middle right
+      // canvas.item(0).controls.mr.offsetX = 100;
+      // top right
+      // canvas.item(0).controls.tr.offsetY = -5;
+      // canvas.item(0).controls.tr.offsetX = 25;
 
       this._resetPositionFillFilter(shapeObj);
 
